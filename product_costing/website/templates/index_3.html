@@ -1,0 +1,25 @@
+<!-- templates/calculate_radius.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Calculate Radius</title>
+  </head>
+  <body>
+    <h2>Calculate Area of Circle</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      <label for="radius">Radius:</label>
+      <input type="text" id="radius" name="radius" value="{{ radius }}" />
+      <button type="submit">Calculate</button>
+    </form>
+
+    {% if result %}
+    <h3>Result:</h3>
+    {% if result == 'Invalid input' %}
+    <p style="color: red">{{ result }}</p>
+    {% else %}
+    <p>For a circle with radius {{ radius }}, the area is: {{ result }}</p>
+    {% endif %} {% endif %}
+  </body>
+</html>
