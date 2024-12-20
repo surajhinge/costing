@@ -1,64 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Radius Converter</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Area Calculator</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        padding: 0;
-      }
-      input,
-      button {
-        margin: 10px 0;
-        padding: 10px;
-        font-size: 1em;
-      }
-      .results {
-        margin-top: 20px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        background-color: #f9f9f9;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label, input, button {
+            display: block;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+        }
     </style>
-  </head>
-  <body>
-    <h1>Radius Converter</h1>
-    <label for="radius">Enter radius (in mm):</label>
-    <input type="number" id="radius" placeholder="Enter radius" />
-    <button onclick="convertRadius()">Convert</button>
-
-    <div class="results" id="results" style="display: none">
-      <h3>Converted Values:</h3>
-      <p><strong>In mm:</strong> <span id="mm"></span> mm</p>
-      <p><strong>In cm:</strong> <span id="cm"></span> cm</p>
-      <p><strong>In inches:</strong> <span id="inches"></span> inches</p>
+</head>
+<body>
+    <div class="container">
+        <h1>Circle Area Calculator</h1>
+        <label for="radius">Enter Radius (in mm):</label>
+        <input type="number" id="radius" min="0" placeholder="Enter radius" required>
+        <button onclick="calculateArea()">Calculate Area</button>
+        <div class="result" id="result"></div>
     </div>
 
     <script>
-      function convertRadius() {
-        const radiusInput = document.getElementById("radius").value;
-        const radius = parseFloat(radiusInput);
+        function calculateArea() {
+            const radius = parseFloat(document.getElementById("radius").value);
+            if (isNaN(radius) || radius <= 0) {
+                document.getElementById("result").innerHTML = "<p>Please enter a valid radius.</p>";
+                return;
+            }
 
-        if (isNaN(radius) || radius <= 0) {
-          alert("Please enter a valid positive number for the radius.");
-          return;
+            const areaInMm = Math.PI * Math.pow(radius, 2);
+            const areaInCm = areaInMm / 100;
+            const areaInInches = areaInMm / 645.16; // Conversion: 1 square inch = 645.16 square mm
+
+            document.getElementById("result").innerHTML = `
+                <p>Area in square millimeters: <strong>${areaInMm.toFixed(2)} mm²</strong></p>
+                <p>Area in square centimeters: <strong>${areaInCm.toFixed(2)} cm²</strong></p>
+                <p>Area in square inches: <strong>${areaInInches.toFixed(2)} in²</strong></p>
+            `;
         }
-
-        // Convert radius
-        const mm = radius.toFixed(2);
-        const cm = (radius / 10).toFixed(2);
-        const inches = (radius / 25.4).toFixed(2);
-
-        // Display results
-        document.getElementById("mm").textContent = mm;
-        document.getElementById("cm").textContent = cm;
-        document.getElementById("inches").textContent = inches;
-
-        document.getElementById("results").style.display = "block";
-      }
     </script>
-  </body>
+</body>
 </html>
