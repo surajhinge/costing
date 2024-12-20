@@ -3,68 +3,61 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Radius Calculator</title>
+    <title>Radius Converter</title>
     <style>
       body {
         font-family: Arial, sans-serif;
-        text-align: center;
-        margin: 0;
+        margin: 20px;
         padding: 0;
       }
-      .container {
-        margin: 50px auto;
-        max-width: 400px;
-      }
-      input {
-        padding: 10px;
-        font-size: 16px;
-        margin: 10px 0;
-        width: calc(100% - 20px);
-      }
+      input,
       button {
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 1em;
       }
-      button:hover {
-        background-color: #0056b3;
-      }
-      .result {
+      .results {
         margin-top: 20px;
-        font-size: 18px;
-        color: #333;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Radius Calculator</h1>
-      <p>Enter the radius to calculate the area of a circle:</p>
-      <input type="number" id="radius" placeholder="Enter radius" required />
-      <button onclick="calculateArea()">Calculate Area</button>
-      <div class="result" id="result"></div>
+    <h1>Radius Converter</h1>
+    <label for="radius">Enter radius (in mm):</label>
+    <input type="number" id="radius" placeholder="Enter radius" />
+    <button onclick="convertRadius()">Convert</button>
+
+    <div class="results" id="results" style="display: none">
+      <h3>Converted Values:</h3>
+      <p><strong>In mm:</strong> <span id="mm"></span> mm</p>
+      <p><strong>In cm:</strong> <span id="cm"></span> cm</p>
+      <p><strong>In inches:</strong> <span id="inches"></span> inches</p>
     </div>
 
     <script>
-      function calculateArea() {
-        const radiusInput = document.getElementById("radius");
-        const resultDiv = document.getElementById("result");
-
-        const radius = parseFloat(radiusInput.value);
+      function convertRadius() {
+        const radiusInput = document.getElementById("radius").value;
+        const radius = parseFloat(radiusInput);
 
         if (isNaN(radius) || radius <= 0) {
-          resultDiv.textContent = "Please enter a valid positive number.";
-          resultDiv.style.color = "red";
-        } else {
-          const area = Math.PI * radius * radius;
-          resultDiv.textContent = `The area of the circle is: ${area.toFixed(
-            2
-          )} square units.`;
-          resultDiv.style.color = "green";
+          alert("Please enter a valid positive number for the radius.");
+          return;
         }
+
+        // Convert radius
+        const mm = radius.toFixed(2);
+        const cm = (radius / 10).toFixed(2);
+        const inches = (radius / 25.4).toFixed(2);
+
+        // Display results
+        document.getElementById("mm").textContent = mm;
+        document.getElementById("cm").textContent = cm;
+        document.getElementById("inches").textContent = inches;
+
+        document.getElementById("results").style.display = "block";
       }
     </script>
   </body>
